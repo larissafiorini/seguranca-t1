@@ -10,13 +10,13 @@ public class App {
 
 	public static void main(String[] args) throws IOException {
 		
-		//Le arquivo com texto cifrado
+		// Le arquivo com texto cifrado
 		Scanner sc = new Scanner(System.in);
-		String file; 
+		String arquivo; 
 		/*System.out.println("Digite o nome do arquivo com o texto cifrado: ");
 		file = sc.nextLine();*/
-		file="texto_cifrado.txt";
-		File input = new File(file);
+		arquivo="texto_cifrado.txt";
+		File input = new File(arquivo);
 		BufferedReader in = new BufferedReader(new FileReader(input));
 		String texto_cifrado = in.readLine();
 		

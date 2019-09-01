@@ -12,7 +12,11 @@ public class Vigenere {
 	}
 
 	public static int findKeyLength(String texto_cifrado) {
-		// indice de coincidencia
+		// indice de coincidencia 
+		
+		//kasiski
+		Kasiski kasiski = new Kasiski();
+		System.out.println("tamanho> "+kasiski.encontraTamanho(texto_cifrado));
 		return 0;
 	}
 }
