@@ -15,8 +15,7 @@ public class Vigenere {
 	}
 
 	/*
-	 * 1- encontra tamanho da chave 
-	 * 2- encontra caracteres da chave
+	 * 1- encontra tamanho da chave 2- encontra caracteres da chave
 	 * 
 	 * 
 	 */
@@ -36,12 +35,12 @@ public class Vigenere {
 
 		// monta cada linha com presenca em um caracter da chave, avancando pelo tamanho
 		// da chave em cada index
-		texto_cifrado = "abcdabcdabcdabcd";
+		texto_cifrado = "abcdabcdabcdabcdbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb";
 		tamanho_chave = 4;
 		String key = "";
-		System.out.println("tamanho texto-cifrado: "+texto_cifrado.length());
-		
-		ArrayList<String> linhas= new ArrayList<String>();
+		System.out.println("tamanho texto-cifrado: " + texto_cifrado.length());
+
+		ArrayList<String> linhas = new ArrayList<String>();
 		int index = 0;
 		while (index < tamanho_chave) {
 			StringBuilder sb = new StringBuilder();
@@ -56,6 +55,35 @@ public class Vigenere {
 		for (String linha : linhas) {
 			System.out.println(linha);
 		}
+
+		// verifica quais caracteres aparecem mais em cada posicao possivel da chave
+		// testando pro primeiro caracter da chave primeiro
+		String subtext = linhas.get(0);
+
+		// Loop para calcular a frequência
+		// ASCII:
+		// 97 = a
+		// 122 = z
+		int frequencias[] = new int[26];
+		int c = 0;
+		for (int j = 97; j <= 122; j++) {
+			int frequencia = 0;
+
+			for (int k = 0; k < subtext.length(); k++) {
+				if (subtext.charAt(k) == (char) j)
+					frequencia++;
+			}
+			System.out.println(" asc[" + j + "] = " + frequencia);
+			frequencias[c] = frequencia;
+			c++;
+		}
+		int maior_frequencia = 0;
+		// 26=numero de letras do alfabeto
+		for (int i = 0; i < 26; i++) {
+			if (frequencias[i] > frequencias[maior_frequencia])
+				maior_frequencia = i;
+		}
+		System.out.println("maior_frequencia: "+maior_frequencia);
 
 	}
 }
