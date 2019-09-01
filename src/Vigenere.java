@@ -35,8 +35,8 @@ public class Vigenere {
 
 		// monta cada linha com presenca em um caracter da chave, avancando pelo tamanho
 		// da chave em cada index
-		texto_cifrado = "abcdabcdabcdabcdbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb";
-		tamanho_chave = 4;
+		// texto_cifrado = "abcdabcdabcdabcdbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb";
+		// tamanho_chave = 4;
 		String key = "";
 		System.out.println("tamanho texto-cifrado: " + texto_cifrado.length());
 
@@ -58,7 +58,7 @@ public class Vigenere {
 
 		// verifica quais caracteres aparecem mais em cada posicao possivel da chave
 		// testando pro primeiro caracter da chave primeiro
-		String subtext = linhas.get(0);
+		String subtext = linhas.get(3);
 
 		// Loop para calcular a frequência
 		// ASCII:
@@ -83,7 +83,52 @@ public class Vigenere {
 			if (frequencias[i] > frequencias[maior_frequencia])
 				maior_frequencia = i;
 		}
-		System.out.println("maior_frequencia: "+maior_frequencia);
+		System.out.println("maior_frequencia: " + maior_frequencia);
+		// letra mais frequente portugues: a
+		System.out.println((char) (maior_frequencia + 97) + " eh o a");
+		System.out.println(maior_frequencia + 97);
+		System.out.println((char) (maior_frequencia + 97));
+
+		// each one needs 26 tries to decrypt, so a key length of 5 gives us a 26^5
+		// cases to try
+		// If, for example, in the first group, the letter “s” is the most repeated one,
+		// we know that “e” is replaced by “s” and hence the key is “s” – “e” = “m”.
+		char mais_repete = (char) (maior_frequencia + 97);
+
+		int letra1 = (int) mais_repete - (int) 'a';
+		if (letra1 < 0)
+			letra1 += 26;
+		System.out.println(letra1);
+		System.out.println(letra1 + 97);
+
+		int letra2 = (int) mais_repete - (int) 'a';
+		letra2 += 97;
+
+		System.out.println("possivel letra da chave: " + (char) letra2);
 
 	}
+
+	
+	// sabendo qual a chave, decifra vigenere pelas cifras de cesar simples agora conhecidas
+	public static void decifra(String chave, String texto_cifrado) {
+		int tamanho_chave = chave.length();
+		int d;
+		char decifrada;
+		StringBuilder texto_claro = new StringBuilder();
+
+		for (int i = 0; i < texto_cifrado.length(); i++) {
+
+			d = texto_cifrado.charAt(i) - chave.charAt(i % tamanho_chave);
+
+			if (d < 0)
+				d += 26;
+
+			decifrada = (char) (d + 'a');
+			texto_claro.append(decifrada);
+		}
+		System.out.println("\n\nMENSAGEM: \n");
+		System.out.println(texto_claro.toString());
+
+	}
+
 }

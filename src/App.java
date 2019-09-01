@@ -25,6 +25,7 @@ public class App {
 		// encontrar tamanho da chave
 		int tamanho_chave = vigenere.encontraTamanhoChave(texto_cifrado);
 		vigenere.analiseFrequencia(tamanho_chave,texto_cifrado); 
+		vigenere.decifra("avelino", texto_cifrado);
 		
 		// quebrar texto cifrado em conjuntos do tamanho da chave
 		
