@@ -72,12 +72,11 @@ public class Vigenere {
 //		}
 		return linhas;
 	}
-	
 
 	// encontrar caracteres da chave
 	public static void analiseFrequencia(int tamanho_chave, String texto_cifrado) {
 		ArrayList<String> linhas = cifrasCesar(tamanho_chave, texto_cifrado);
-		
+
 		// verifica quais caracteres aparecem mais em cada posicao possivel da chave
 		// testando pro primeiro caracter da chave primeiro
 		// String subtext = linhas.get(1);
@@ -100,7 +99,7 @@ public class Vigenere {
 					if (subtext.charAt(k) == (char) j)
 						frequencia++;
 				}
-				System.out.println((char)j + " asc[" + j + "] = " + frequencia);
+				System.out.println((char) j + " asc[" + j + "] = " + frequencia);
 				frequencias[c] = frequencia;
 				c++;
 			}
@@ -111,24 +110,50 @@ public class Vigenere {
 				if (frequencias[i] > frequencias[maior_frequencia])
 					maior_frequencia = i;
 			}
-			
-			
-			int deslocamento = maior_frequencia;//0-26
-			//somar com 1 letra da tabela ascII('a'=97)
-			int letra_que_eh_o_a=deslocamento+97;
-			letra_que_eh_o_a = (char)letra_que_eh_o_a;
+
+			int deslocamento = maior_frequencia;// 0-26
+			// somar com 1 letra da tabela ascII('a'=97)
+			int letra_que_eh_o_a = deslocamento + 97;
+			letra_que_eh_o_a = (char) letra_que_eh_o_a;
 			deslocamento = letra_que_eh_o_a - 'a';
-			System.out.println("DESLOCAMENTO: "+deslocamento);
+			System.out.println("DESLOCAMENTO: " + deslocamento);
+
+			Utils utils = new Utils();
+
+			double[] expected = new double[26];
+			for (int i = 0; i < 26; i++) {
+				// length * P(i)
+				expected[i] = (linha.length() * (utils.FREQUENCIES[i] / 100));
+			}
+
+			double[] expectedCharacterCounts = expected;
+
+			int[] counts = new int[26];
+			for (char ccc : linha.toCharArray())
+				counts[ccc - 'a']++;
+
+			double tempFitness = 0.0;
+			double fitness = Integer.MAX_VALUE;
+			int shift = 0;
+			for (int i = 0; i < 26; i++) {
+				// ((Ci - Ei)^2)/Ei
+				tempFitness += Math.pow(counts[i] - expectedCharacterCounts[i], 2) / expectedCharacterCounts[i];
+
+				if (tempFitness > fitness) {
+					fitness = tempFitness;
+					shift = i;
+				}
+
+			}
+			System.out.println("\nSHIFT: "+shift);
+			char letra_chave = (char) (deslocamento + 'a');
+			System.out.println("LETRA_CHAVE: " + letra_chave);
+
+			int letra2 = (deslocamento + 'a');
+			//int letra2 = (shift + 97);
+			//FALTA IMPLEMENTAR: chiSquareAgainstEnglish(String ciphertext) ciphertext=CADA LINHA DO ARRAYLIST 
 			
-			char letra_chave = (char) (deslocamento+'a');
-			System.out.println("LETRA_CHAVE: "+letra_chave);
-			
-			
-			
-			int letra2=(deslocamento+'a');
-			
-			
-			
+
 //			//LETRA Q CORRESPONDE AO 'A' DO PORTUGUES
 //			//(char)(97+maior_frequencia)
 //			
