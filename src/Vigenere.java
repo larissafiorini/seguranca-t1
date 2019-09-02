@@ -72,11 +72,12 @@ public class Vigenere {
 //		}
 		return linhas;
 	}
+	
 
 	// encontrar caracteres da chave
 	public static void analiseFrequencia(int tamanho_chave, String texto_cifrado) {
 		ArrayList<String> linhas = cifrasCesar(tamanho_chave, texto_cifrado);
-
+		
 		// verifica quais caracteres aparecem mais em cada posicao possivel da chave
 		// testando pro primeiro caracter da chave primeiro
 		// String subtext = linhas.get(1);
@@ -99,7 +100,7 @@ public class Vigenere {
 					if (subtext.charAt(k) == (char) j)
 						frequencia++;
 				}
-				System.out.println(" asc[" + j + "] = " + frequencia);
+				System.out.println((char)j + " asc[" + j + "] = " + frequencia);
 				frequencias[c] = frequencia;
 				c++;
 			}
@@ -110,45 +111,73 @@ public class Vigenere {
 				if (frequencias[i] > frequencias[maior_frequencia])
 					maior_frequencia = i;
 			}
-			System.out.println("maior_frequencia: " + maior_frequencia);
-			// letra mais frequente portugues: a
-			System.out.println((char) (maior_frequencia + 97) + " eh o a");
-			System.out.println(maior_frequencia + 97);
-			System.out.println((char) (maior_frequencia + 97));
-
-			// 'E' is the maxChar
-			// Console.WriteLine(string.Format("E is probably: {0} - {1}", maxChar,
-			// maxFreq));
-			int testa = (char) 'a' - (char) (maior_frequencia + 97);
-			System.out.println("testa:" + testa);
-
-			// Console.WriteLine(string.Format("Key would be: {0}", (char) (maxChar - 'e' +
-			// 'A')));
-			int keyyy = ((char) (maior_frequencia + 97) - (char) 'a') + 97;
-			System.out.println("keyyy:" + keyyy);
-			System.out.println("keyyy:" + (char) keyyy);
-			key_final.append((char) keyyy);
-
-			// each one needs 26 tries to decrypt, so a key length of 5 gives us a 26^5
-			// cases to try
-			// If, for example, in the first group, the letter “s” is the most repeated one,
-			// we know that “e” is replaced by “s” and hence the key is “s” – “e” = “m”.
-			char mais_repete = (char) (maior_frequencia + 97);
-
-			int letra1 = (int) mais_repete - (int) 'a';
-			if (letra1 < 0)
-				letra1 += 26;
-			System.out.println(letra1);
-			System.out.println(letra1 + 97);
-
-			int letra2 = (int) mais_repete - (int) 'a';
-			letra2 += 97;
-
-			System.out.println("possivel letra da chave: " + (char) letra2);
+			
+			
+			int deslocamento = maior_frequencia;//0-26
+			//somar com 1 letra da tabela ascII('a'=97)
+			int letra_que_eh_o_a=deslocamento+97;
+			letra_que_eh_o_a = (char)letra_que_eh_o_a;
+			deslocamento = letra_que_eh_o_a - 'a';
+			System.out.println("DESLOCAMENTO: "+deslocamento);
+			
+			char letra_chave = (char) (deslocamento+'a');
+			System.out.println("LETRA_CHAVE: "+letra_chave);
+			
+			
+			
+			int letra2=(deslocamento+'a');
+			
+			
+			
+//			//LETRA Q CORRESPONDE AO 'A' DO PORTUGUES
+//			//(char)(97+maior_frequencia)
+//			
+//			// A DO PORTUGUES - DESLOCAMENTO = DESLOCAMENTO FINAL DA CIFRA
+//			System.out.println("MAIOR FREQ: "+maior_frequencia);
+//
+//			System.out.println("\n DESLOC.::: "+ ((maior_frequencia - 97)+97));
+//			System.out.println("\n .::: "+ (char)((maior_frequencia - 97)+97));
+//			
+//			System.out.println("maior_frequencia: " + maior_frequencia);
+//			// letra mais frequente portugues: a
+//			System.out.println((char) (maior_frequencia + 97) + " eh o a");
+//			System.out.println(maior_frequencia + 97);
+//			System.out.println((char) (maior_frequencia + 97));
+//
+//			// 'E' is the maxChar
+//			// Console.WriteLine(string.Format("E is probably: {0} - {1}", maxChar,
+//			// maxFreq));
+//			int testa = (char) 'a' - (char) (maior_frequencia + 97);
+//			System.out.println("testa:" + testa);
+//
+//			// Console.WriteLine(string.Format("Key would be: {0}", (char) (maxChar - 'e' +
+//			// 'A')));
+//			int keyyy = ((char) (maior_frequencia + 97) - (char) 'a') + 97;
+//			System.out.println("keyyy:" + keyyy);
+//			System.out.println("keyyy:" + (char) keyyy);
+//			key_final.append((char) keyyy);
+//
+//			// each one needs 26 tries to decrypt, so a key length of 5 gives us a 26^5
+//			// cases to try
+//			// If, for example, in the first group, the letter “s” is the most repeated one,
+//			// we know that “e” is replaced by “s” and hence the key is “s” – “e” = “m”.
+//			char mais_repete = (char) (maior_frequencia + 97);
+//
+//			int letra1 = (int) mais_repete - (int) 'a';
+//			if (letra1 < 0)
+//				letra1 += 26;
+//			System.out.println("LETRA1:::::::::::: "+letra1);
+//			System.out.println("LETRA1+97:::::::::::: "+(letra1 + 97));
+//			System.out.println("LETRA1+97:::::::::::: "+(char)(letra1 + 97));
+//
+//			int letra2 = (int) mais_repete - (int) 'a';
+//			letra2 += 97;
+//
+//			System.out.println("possivel letra da chave: " + (char) letra2);
 			key_final2.append((char) letra2);
 		}
 		System.out.println("KEYFINAL 1: " + key_final.toString());
-		System.out.println("KEYFINAL 2: " + key_final2.toString());
+		System.out.println("\n\nKEYFINAL 2: " + key_final2.toString());
 	}
 
 	// sabendo qual a chave, decifra vigenere pelas cifras de cesar simples agora
