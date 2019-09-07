@@ -1,5 +1,8 @@
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
-public class Utils {
+public class AnaliseFrequencias {
 	/*
 	 * Frequencias das letras no portugues
 	 */
@@ -30,8 +33,18 @@ public class Utils {
 	public static double Y = 0.006;
 	public static double Z = 0.470;
 
-	public static double[] FREQUENCIES = { A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S, T, U, V, W, X, Y,
+	public static double[] FREQUENCIAS = { A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S, T, U, V, W, X, Y,
 			Z };
+		
+	private Character[] ALFABETO = { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p',
+			'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z' };
 	
+	private static String texto_cifrado="";
+	
+	
+	public AnaliseFrequencias(String tc) {
+		this.texto_cifrado = tc;
+	}
+
 	
 }
