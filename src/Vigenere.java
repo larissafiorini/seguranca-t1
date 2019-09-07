@@ -73,6 +73,20 @@ public class Vigenere {
 		return linhas;
 	}
 
+	public static double chiSquare(int[] observedFreq, double[] expectedFreq) {
+		double chi = 0;
+		int sum = 0;
+		for (int freq : observedFreq) {
+			sum += freq;
+		}
+		for (int i = 0; i < 26; i++) {
+			chi += Math.pow(((1.0 * observedFreq[i] / sum) - (expectedFreq[i] / 100.0)), 2.0)
+					/ (expectedFreq[i] / 100.0);
+		}
+		return chi;
+
+	}
+
 	// encontrar caracteres da chave
 	public static void analiseFrequencia(int tamanho_chave, String texto_cifrado) {
 		ArrayList<String> linhas = cifrasCesar(tamanho_chave, texto_cifrado);
@@ -145,14 +159,14 @@ public class Vigenere {
 				}
 
 			}
-			System.out.println("\nSHIFT: "+shift);
+			System.out.println("\nSHIFT: " + shift);
 			char letra_chave = (char) (deslocamento + 'a');
 			System.out.println("LETRA_CHAVE: " + letra_chave);
 
 			int letra2 = (deslocamento + 'a');
-			//int letra2 = (shift + 97);
-			//FALTA IMPLEMENTAR: chiSquareAgainstEnglish(String ciphertext) ciphertext=CADA LINHA DO ARRAYLIST 
-			
+			// int letra2 = (shift + 97);
+			// FALTA IMPLEMENTAR: chiSquareAgainstEnglish(String ciphertext) ciphertext=CADA
+			// LINHA DO ARRAYLIST
 
 //			//LETRA Q CORRESPONDE AO 'A' DO PORTUGUES
 //			//(char)(97+maior_frequencia)
