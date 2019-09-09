@@ -7,6 +7,7 @@ import java.util.Map;
 public class IndexCoincidencia {
 
 	private double index_coincidence_portugues = 0.072723;
+	
 	private static String texto_cifrado = "";
 
 	public IndexCoincidencia(String tc) {
@@ -36,8 +37,8 @@ public class IndexCoincidencia {
 			frequencia_letra.put(f.getALFABETO()[i], 0);
 		}
 
-		// Para numeros diferentes de colunas ateh o tamanho do texto
-		for (int nCol = 13; nCol < 20; nCol++) {
+		// Para numeros diferentes de colunas ateh o tamanho do texto (nCol = chave)
+		for (int nCol = 1; nCol < 15; nCol++) {
 
 			// Para cada coluna, conta a frequencia de cada letra e armazena
 			// Calcula o indexOfCoincidence() de cada coluna e adicona em um array
@@ -92,22 +93,22 @@ public class IndexCoincidencia {
 			for (Double IOC : freq_coluna) {
 				somaIOC += IOC;
 			}
-			double media = somaIOC / freq_coluna.size();
+			double meida = somaIOC / freq_coluna.size();
 
 			double diferencia_indices=0.0;
 			// Adiciona possivel chave no array de chaves possiveis, passando o possivel
 			// tamanho da chave e a media do indice de coicidencia calculado para ordenacao
-			if (media > 0) {
+			if (meida > 0) {
 				//listOfKeys.add(new Key(nOfColumns, avg));//keyLength, indexOfCoincidence
-				if(media >= index_coincidence_portugues) {
-					diferencia_indices = media - index_coincidence_portugues;
+				if(meida >= index_coincidence_portugues) {
+					diferencia_indices = meida - index_coincidence_portugues;
 				}else {
-					diferencia_indices = index_coincidence_portugues - media;
+					diferencia_indices = index_coincidence_portugues - meida;
 				}
 				//keyLength = nOfColumns
 				//difIndexOfCoincidence
 				//indexOfCoincidence=avg
-				System.out.println("Chave: "+nCol+" indexOfCoincidence" + media +" ic quem tem maior vira chave final: "+diferencia_indices);
+				System.out.println("Chave: "+nCol+" indexOfCoincidence" + meida +" ic quem tem maior vira chave final: "+diferencia_indices);
 
 
 			

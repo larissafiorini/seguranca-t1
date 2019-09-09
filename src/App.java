@@ -31,7 +31,7 @@ public class App {
 		Scanner sc = new Scanner(System.in);
 		/*System.out.println("Digite o nome do arquivo com o texto cifrado: ");
 		String arquivo= sc.nextLine();*/
-		String arquivo= "DemCifrado.txt"; 
+		String arquivo= "NovoRepublic.txt"; 
 		
 		File input = new File(arquivo);
 		BufferedReader in = new BufferedReader(new FileReader(input));
