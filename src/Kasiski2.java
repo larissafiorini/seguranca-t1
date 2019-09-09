@@ -13,7 +13,7 @@ public class Kasiski2 {
 
 	private static int tamanho_chave = 0;
 	private static int distancias[] = new int[200];
-	private static int tamanho_palavra = 3;
+	private static int tamanho_palavra = 120;
 
 	public int encontraTamanho(String texto_cifrado) {
 
@@ -124,6 +124,25 @@ public class Kasiski2 {
 		}
 		System.out.println("tamanho da chave agora: "+ maiorkey);
 		
+		
+		// pega varias maiores 
+		maior=0;
+		int[] maioreskeys = new int[20];
+		int p=0;
+		for (Integer key : m2.keySet()) {
+			if (key > 1) {
+				System.out.println("key: " + key + " value: " + m2.get(key));
+				if( m2.get(key) >= maior) {
+					maior = m2.get(key) ;
+					maioreskeys[p]=key;
+					p++;
+				}
+			}
+		}
+		for (int i = 0; i < maioreskeys.length; i++) {
+			if(maioreskeys[i]>0)
+				System.out.println("tamanho da chave agora: "+ maioreskeys[i]);
+		}
 		
 //		maiorvalor = 1;
 //

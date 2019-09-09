@@ -1,8 +1,14 @@
+/*
+ * 
+ * Classe que realiza o teste de Kasiski para encontrar o tamanho da chave. 
+ * 
+ * */
+
 public class Kasiski {
 
 	private static int tamanho_chave = 0;
 	private static int distancias[] = new int[100];
-	private static int tamanho_palavra = 7;
+	private static int tamanho_palavra = 12;
 	
 
 	public int encontraTamanho(String texto_cifrado) {
@@ -10,17 +16,10 @@ public class Kasiski {
 		System.out.println(texto_cifrado.length());
 
 		String comparador_strings = "";
-		
 
 		int cont = 0;
 		for (int i = 0; i < (texto_cifrado.length() - tamanho_palavra); i++) {
-
-			/*
-			 * 0  0+6=6
-			
-			1  1+6=7
-			2  2+6=8*/
-		
+	
 			// procura trechos de string q se repetem pelo texto
 			comparador_strings = texto_cifrado.substring(i, i + tamanho_palavra);
 
