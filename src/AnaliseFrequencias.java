@@ -48,6 +48,10 @@ public class AnaliseFrequencias {
 	public AnaliseFrequencias(String tc) {
 		texto_cifrado = tc;
 	}
+	
+	public static Character[] getALFABETO() {
+		return ALFABETO;
+	}
 
 	// Divide o texto em uma matriz onde as colunas = tamanho da chave.
 	// Cada coluna corresponde a um caractere que foi cifrado com um caractere da chave.
@@ -76,12 +80,7 @@ public class AnaliseFrequencias {
 				index++;
 			}
 		}
-
 		return matriz_texto_cifrado;
-
-//		for (Integer key : matriz_texto_cifrado.keySet()) {
-//			System.out.println(matriz_texto_cifrado.get(key).toString());
-//		}
 	}
 
 	// Map : <Letra, Frequencia>
@@ -153,11 +152,6 @@ public class AnaliseFrequencias {
 		// Coluna com deslocamento correto utilizado na cifragem. 
 		StringBuilder novaColuna = new StringBuilder();
 		
-		// ascii
-		//97 = a
-		// 122 = z
-		
-		System.out.println("\nCARACTER: "+c+"CARACTER NO ASCII " +(int) c);
 		// monta coluna da tabela de vigenere do caracter 
 		ArrayList<Character> ac = new ArrayList<>();
 		int k = (int) c;
@@ -183,19 +177,13 @@ public class AnaliseFrequencias {
 
 			novaColuna.append(getALFABETO()[index]);
 		}
-		System.out.println("\n"+coluna);
-		System.out.println(novaColuna.toString());
 		return novaColuna.toString();
 
 	}
 
-	public static Character[] getALFABETO() {
-		return ALFABETO;
-	}
 
-	public static void setALFABETO(Character[] aLFABETO) {
-		ALFABETO = aLFABETO;
-	}
+
+
 	
 	
 

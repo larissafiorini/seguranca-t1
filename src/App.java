@@ -31,7 +31,7 @@ public class App {
 		Scanner sc = new Scanner(System.in);
 		/*System.out.println("Digite o nome do arquivo com o texto cifrado: ");
 		String arquivo= sc.nextLine();*/
-		String arquivo= "NovoRepublic.txt"; 
+		String arquivo= "texto_cifrado.txt"; 
 		
 		File input = new File(arquivo);
 		BufferedReader in = new BufferedReader(new FileReader(input));
@@ -41,11 +41,11 @@ public class App {
 		Vigenere vigenere = new Vigenere();
 		
 		// Busca tamanho da chave
-		//int tamanho_chave = vigenere.encontraTamanhoChave(texto_cifrado);
-		IndexCoincidencia ic = new IndexCoincidencia(texto_cifrado);
-		ic.calcula();
+		int tamanho_chave = vigenere.encontraTamanhoChave(texto_cifrado);
+		//IndexCoincidencia ic = new IndexCoincidencia(texto_cifrado);
+		//ic.calcula();
 		
-		int tamanho_chave =0;
+		//int tamanho_chave =0;
 		
 		// Busca caracteres da chave
 		String chave = vigenere.encontraChave(tamanho_chave,texto_cifrado); 

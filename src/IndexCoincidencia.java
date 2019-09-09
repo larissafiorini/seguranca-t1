@@ -7,7 +7,7 @@ import java.util.Map;
 public class IndexCoincidencia {
 
 	private double index_coincidence_portugues = 0.072723;
-	
+
 	private static String texto_cifrado = "";
 
 	public IndexCoincidencia(String tc) {
@@ -25,12 +25,11 @@ public class IndexCoincidencia {
 //	}
 //}
 
-
-
 	public void calcula() {
 		AnaliseFrequencias f = new AnaliseFrequencias(texto_cifrado);
 		// Map : <Letra, Frequencia>
 		Map<Character, Integer> frequencia_letra = new HashMap<>();
+		Map<Integer, Double> compara_indices = new HashMap<>();
 
 		// Inicializa o Array de frequencia de caracteres <Letra,0>
 		for (int i = 0; i < f.getALFABETO().length; i++) {
@@ -38,7 +37,7 @@ public class IndexCoincidencia {
 		}
 
 		// Para numeros diferentes de colunas ateh o tamanho do texto (nCol = chave)
-		for (int nCol = 1; nCol < 15; nCol++) {
+		for (int nCol =1; nCol < 15; nCol++) {
 
 			// Para cada coluna, conta a frequencia de cada letra e armazena
 			// Calcula o indexOfCoincidence() de cada coluna e adicona em um array
@@ -93,28 +92,40 @@ public class IndexCoincidencia {
 			for (Double IOC : freq_coluna) {
 				somaIOC += IOC;
 			}
-			double meida = somaIOC / freq_coluna.size();
+			double media = somaIOC / freq_coluna.size();
 
-			double diferencia_indices=0.0;
+			double diferencia_indices = 0.0;
 			// Adiciona possivel chave no array de chaves possiveis, passando o possivel
 			// tamanho da chave e a media do indice de coicidencia calculado para ordenacao
-			if (meida > 0) {
-				//listOfKeys.add(new Key(nOfColumns, avg));//keyLength, indexOfCoincidence
-				if(meida >= index_coincidence_portugues) {
-					diferencia_indices = meida - index_coincidence_portugues;
-				}else {
-					diferencia_indices = index_coincidence_portugues - meida;
+			if (media > 0) {
+				// listOfKeys.add(new Key(nOfColumns, avg));//keyLength, indexOfCoincidence
+				if (media >= index_coincidence_portugues) {
+					diferencia_indices = media - index_coincidence_portugues;
+				} else {
+					diferencia_indices = index_coincidence_portugues - media;
 				}
-				//keyLength = nOfColumns
-				//difIndexOfCoincidence
-				//indexOfCoincidence=avg
-				System.out.println("Chave: "+nCol+" indexOfCoincidence" + meida +" ic quem tem maior vira chave final: "+diferencia_indices);
+				// keyLength = nOfColumns
+				// difIndexOfCoincidence
+				// indexOfCoincidence=avg
+				System.out.println("Chave: " + nCol + " indexOfCoincidence" + media
+						+ " ic quem tem maior vira chave final: " + diferencia_indices);
+				
+				compara_indices.put(nCol, diferencia_indices);
 
 
-			
 			}
 
-
 		}
+		double menor_ic =Double.MAX_VALUE;
+		int key_final=0;
+		for (Integer key : compara_indices.keySet()) {
+			System.out.println("key: "+key+" ic: "+ compara_indices.get(key).toString());
+			if( compara_indices.get(key) < menor_ic) {
+				menor_ic=compara_indices.get(key);
+				key_final=key;
+			}
+		}
+		System.out.println("Tamanho de chave final por indice de coincidencia: "+key_final);
+
 	}
 }
