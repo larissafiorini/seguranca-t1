@@ -56,6 +56,7 @@ public class Vigenere {
 	// Sabendo qual a chave, decifra vigenere pelas cifras de cesar simples agora
 	// conhecidas
 	public static String decifra(String chave, String texto_cifrado) {
+		System.out.println("Decifrando texto com a chave encontrada..");
 		StringBuilder texto_claro = new StringBuilder();
 		char letra_decifrada;
 		int deslocamento;
@@ -70,7 +71,7 @@ public class Vigenere {
 			letra_decifrada = (char) (deslocamento + 'a');
 			texto_claro.append(letra_decifrada);
 		}
-		System.out.println("\n\nMENSAGEM: \n" + texto_claro.toString());
+		System.out.println("\n\nTEXTO CLARO: \n" + texto_claro.toString());
 		return texto_claro.toString();
 	}
 

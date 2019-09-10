@@ -40,21 +40,22 @@ public class AnaliseFrequencias {
 	public static double[] FREQUENCIAS = { A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S, T, U, V, W, X, Y,
 			Z };
 
-	private static Character[] ALFABETO = { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p',
-			'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z' };
+	private static Character[] ALFABETO = { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o',
+			'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z' };
 
 	private static String texto_cifrado = "";
 
 	public AnaliseFrequencias(String tc) {
 		texto_cifrado = tc;
 	}
-	
+
 	public static Character[] getALFABETO() {
 		return ALFABETO;
 	}
 
 	// Divide o texto em uma matriz onde as colunas = tamanho da chave.
-	// Cada coluna corresponde a um caractere que foi cifrado com um caractere da chave.
+	// Cada coluna corresponde a um caractere que foi cifrado com um caractere da
+	// chave.
 	public Map<Integer, ArrayList<Character>> divideTexto(int tamanho_chave) {
 
 		Map<Integer, ArrayList<Character>> matriz_texto_cifrado = new HashMap<>();
@@ -85,7 +86,7 @@ public class AnaliseFrequencias {
 
 	// Map : <Letra, Frequencia>
 	private Map<Character, Integer> frequencia_letra = new HashMap<>();
-	
+
 	public Map<Character, Integer> getFrequencia_letra() {
 		return frequencia_letra;
 	}
@@ -103,15 +104,18 @@ public class AnaliseFrequencias {
 
 		String coluna_analise = coluna;
 
+		// Para cada letra do alfabeto
 		for (int i = 1; i < getALFABETO().length; i++) {
-			
+
 			double chi = 0;
 			// Busca frequencia de cada letra da coluna
 			frequenciaLetra(coluna_analise);
 
+			// para cada letra do alfabeto, calcula
+			// o chi comparando com o caractere atual
 			for (int j = 0; j < getALFABETO().length; j++) {
-				// + aparece na coluna  , frequencia no portugues * tamanho da coluna
-				chi += chiSquare(frequencia_letra.get(getALFABETO()[j]), FREQUENCIAS[j] * coluna_analise.length());
+				// + aparece na coluna , frequencia no portugues * tamanho da coluna
+				chi += chiSquare(frequencia_letra.get(getALFABETO()[j]), (FREQUENCIAS[j] * coluna_analise.length()));
 			}
 			// armazena letra e valor ChiSquare
 			chiSquare.put(getALFABETO()[i - 1], chi);
@@ -119,13 +123,19 @@ public class AnaliseFrequencias {
 			coluna_analise = deslocaLetras(getALFABETO()[i], coluna);
 		}
 
+		// chiSquare vai ter letra e valor chisquare calculado para todo alfabeto 2x
+//		for (Character key : chiSquare.keySet()) {
+//			System.out.println("key: "+key+" value: "+ chiSquare.get(key).toString());
+//		}
+
 		// escolhe letra de menor valor
-		// A low value for chi-square means there is a high correlation between your two sets of data
-		// (frequencia no texto x frequencia no alfabeto portugues). 
+		// A low value for chi-square means there is a high correlation between your two
+		// sets of data
+		// (frequencia no texto x frequencia no alfabeto portugues).
 		Character letra = new Character('a');
 		Double valor_minimmo = new Double(Double.MAX_VALUE);
 		for (Character key : chiSquare.keySet()) {
-			if (valor_minimmo > chiSquare.get(key)) {
+			if (chiSquare.get(key)<valor_minimmo) {
 				letra = key;
 				valor_minimmo = chiSquare.get(key);
 			}
@@ -134,7 +144,7 @@ public class AnaliseFrequencias {
 		return letra;
 	}
 
-	// Conta a frequencia de cada letra em umacoluna de caracteres
+	// Conta a frequencia de cada letra em uma coluna de caracteres
 	public void frequenciaLetra(String coluna) {
 		// Inicializa o Array de frequencia de caracteres <Letra,0>
 		for (int i = 0; i < getALFABETO().length; i++) {
@@ -146,45 +156,34 @@ public class AnaliseFrequencias {
 		}
 	}
 
-	// Decifra a coluna a partir da letra.
+	// Desloca a coluna a partir da letra.
 	public String deslocaLetras(Character c, String coluna) {
 
-		// Coluna com deslocamento correto utilizado na cifragem. 
-		StringBuilder novaColuna = new StringBuilder();
-		
-		// monta coluna da tabela de vigenere do caracter 
+		// Coluna com deslocamento.
+		StringBuilder nova_coluna = new StringBuilder();
+
+		// monta coluna da tabela de vigenere do caracter
 		ArrayList<Character> ac = new ArrayList<>();
 		int k = (int) c;
 		for (int i = 0; i < getALFABETO().length; i++) {
-			System.out.print((char) k +",");
 			ac.add((char) k);
-			if(k ==122)
-				k=97;
+			if (k == 122)
+				k = 97;
 			else
 				k++;
 		}
-		
+
 		int index = 0;
-
+		// busca index do caractere na coluna
 		for (int i = 0; i < coluna.length(); i++) {
-
 			for (int j = 0; j < ac.size(); j++) {
 				if (ac.get(j) == coluna.charAt(i)) {
 					index = j;
 					break;
 				}
 			}
-
-			novaColuna.append(getALFABETO()[index]);
+			nova_coluna.append(getALFABETO()[index]);
 		}
-		return novaColuna.toString();
-
+		return nova_coluna.toString();
 	}
-
-
-
-
-	
-	
-
 }
