@@ -42,8 +42,8 @@ public class App {
 		Vigenere vigenere = new Vigenere(texto_cifrado);
 		
 		// Busca tamanho da chave
-		int tamanho_chave = vigenere.encontraTamanhoChave();
-		
+		//int tamanho_chave = vigenere.encontraTamanhoChave();
+		int tamanho_chave=7;
 		// Busca caracteres da chave
 		String chave = vigenere.encontraChave(tamanho_chave); 
 				
