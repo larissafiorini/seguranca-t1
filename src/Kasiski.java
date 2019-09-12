@@ -6,37 +6,33 @@
 
 public class Kasiski {
 
-	private static int tamanho_chave = 0;
-	private static int distancias[] = new int[200];
-	private static int tamanho_palavra = 12;
-	
+	// Armazena distancias entre caracteres repetidos
+	private static int distancias[] = new int[300];
 
 	public int encontraTamanho(String texto_cifrado) {
 
-		System.out.println(texto_cifrado.length());
+		System.out.println("Tamanho do texto cifrado: "+texto_cifrado.length());
 
-		String comparador_strings = "";
-
+		String comparador_caracteres = "";
 		int cont = 0;
+		int tamanho_palavra = 12;
 		for (int i = 0; i < (texto_cifrado.length() - tamanho_palavra); i++) {
-	
-			// procura trechos de string q se repetem pelo texto
-			comparador_strings = texto_cifrado.substring(i, i + tamanho_palavra);
-
+			// procura trechos de string que se repetem pelo texto
+			comparador_caracteres = texto_cifrado.substring(i, i + tamanho_palavra);
+			
 			for (int j = i + 1; j < texto_cifrado.length() - tamanho_palavra; j++) {
-				if (comparador_strings.equals(texto_cifrado.substring(j, j + tamanho_palavra)) && cont < 100) {
+				if (comparador_caracteres.equals(texto_cifrado.substring(j, j + tamanho_palavra)) && cont < 300) {
 					distancias[cont] = j - i;
 					cont++;
 				}
 			}
 		}
-
-		tamanho_chave = alg_euclidiano(distancias[0], distancias[1]);
+		// realiza busca do tamanho da chave com algoritmo euclidiano aplicado as distancias
+		int tamanho_chave = alg_euclidiano(distancias[0], distancias[1]);
 
 		if (distancias.length > 2) {
 			for (int k = 2; k < distancias.length; k++) {
 				tamanho_chave = alg_euclidiano(tamanho_chave, distancias[k]);
-				System.out.println("nas dist: "+tamanho_chave);
 			}
 		}
 		return tamanho_chave;
