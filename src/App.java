@@ -27,31 +27,30 @@ public class App {
 
 	public static void main(String[] args) throws IOException {
 		
+		System.out.println("***Criptoanalise - Cifra de Vigenere***");
+		
 		// Le arquivo com texto cifrado
 		Scanner sc = new Scanner(System.in);
-		/*System.out.println("Digite o nome do arquivo com o texto cifrado: ");
-		String arquivo= sc.nextLine();*/
-		String arquivo= "texto_cifrado.txt"; 
+//		System.out.println("\nDigite o nome do arquivo com o texto cifrado: ");
+//		String arquivo= sc.nextLine();
+		String arquivo= "texto_cifrado.txt";
+		
 		
 		File input = new File(arquivo);
 		BufferedReader in = new BufferedReader(new FileReader(input));
 		String texto_cifrado = in.readLine();
 		
 		// Classe que realiza a decifragem 
-		Vigenere vigenere = new Vigenere();
+		Vigenere vigenere = new Vigenere(texto_cifrado);
 		
 		// Busca tamanho da chave
-		int tamanho_chave = vigenere.encontraTamanhoChave(texto_cifrado);
-		//IndexCoincidencia ic = new IndexCoincidencia(texto_cifrado);
-		//ic.calcula();
-		
-		//int tamanho_chave =0;
+		int tamanho_chave = vigenere.encontraTamanhoChave();
 		
 		// Busca caracteres da chave
-		String chave = vigenere.encontraChave(tamanho_chave,texto_cifrado); 
+		String chave = vigenere.encontraChave(tamanho_chave); 
 				
 		// Decifra texto usando a chave encontrada
-		String result = vigenere.decifra(chave, texto_cifrado);
+		String result = vigenere.decifra(chave);
 		
 		// Salva resultado no arquivo
 		System.out.println("\nResultado salvo no arquivo: 'texto_claro.txt'");
