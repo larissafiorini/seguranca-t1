@@ -31,10 +31,8 @@ public class App {
 		
 		// Le arquivo com texto cifrado
 		Scanner sc = new Scanner(System.in);
-//		System.out.println("\nDigite o nome do arquivo com o texto cifrado: ");
-//		String arquivo= sc.nextLine();
-		String arquivo= "texto_cifrado.txt";
-		
+		System.out.println("\nDigite o nome do arquivo com o texto cifrado: ");
+		String arquivo= sc.nextLine();
 		
 		File input = new File(arquivo);
 		BufferedReader in = new BufferedReader(new FileReader(input));

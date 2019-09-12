@@ -54,12 +54,12 @@ public class Vigenere {
 		int deslocamento = 0;
 
 		for (int i = 0; i < texto_cifrado.length(); i++) {
-			// converte para range 0-25. D(Ci) = (Ci - Ki) mod 26
+			// Converte para range 0-25. D(Ci) = (Ci - Ki) mod 26
 			deslocamento = texto_cifrado.charAt(i) - chave.charAt(i % chave.length());
 			if (deslocamento < 0)
 				deslocamento += analise_frequencias.getALFABETO().length;
 
-			// converte para letra (ASCII)
+			// Converte para letra (ASCII)
 			letra_decifrada = (char) (deslocamento + 'a');
 			texto_claro.append(letra_decifrada);
 		}
