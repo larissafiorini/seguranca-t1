@@ -37,19 +37,33 @@ public class AnaliseFrequencias {
 	public static double Y = 0.006;
 	public static double Z = 0.470;
 
-	public static double[] FREQUENCIAS = { A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S, T, U, V, W, X, Y,
+	public static double[] FREQUENCIAS_PORT = { A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S, T, U, V, W, X, Y,
 			Z };
 	
+	/*
+	 * Frequencias das letras no ingles
+	 */
 	public static double[] FREQUENCIAS_ING = {8.167, 1.492, 2.782,4.253,12.702, 2.228,2.015, 	6.094, 	6.966, 0.153,0.772, 4.025,	2.406, 6.749,7.507, 	1.929, 0.095, 	5.987, 6.327, 9.056, 	2.758, 0.978, 2.360, 0.150, 1.974,
 			0.074 };
+	
+	private static double[] FREQUENCIAS;
+	
+	public static void setFrequencias(String idioma) {
+		if(idioma.equals("ingles"))
+			FREQUENCIAS=FREQUENCIAS_ING;
+		else
+			FREQUENCIAS=FREQUENCIAS_PORT;
+			
+	}
 
 	private static Character[] ALFABETO = { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o',
 			'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z' };
 
 	private static String texto_cifrado = "";
 
-	public AnaliseFrequencias(String tc) {
+	public AnaliseFrequencias(String tc, String idioma) {
 		texto_cifrado = tc;
+		setFrequencias(idioma);
 	}
 
 	public static Character[] getALFABETO() {
@@ -109,7 +123,7 @@ public class AnaliseFrequencias {
 			// Para cada letra do alfabeto, calcula
 			// o chi comparando com o caractere atual
 			for (int j = 0; j < getALFABETO().length; j++) {
-				chi += chiSquare(frequencia_letra.get(getALFABETO()[j]), (FREQUENCIAS_ING[j] * coluna_analise.length()));
+				chi += chiSquare(frequencia_letra.get(getALFABETO()[j]), (FREQUENCIAS[j] * coluna_analise.length()));
 			}
 			// Armazena letra e valor Chi-Square
 			chiSquare.put(getALFABETO()[i - 1], chi);

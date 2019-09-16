@@ -10,9 +10,15 @@ public class Vigenere {
 	private static String texto_cifrado = "";
 	private static AnaliseFrequencias analise_frequencias;
 
-	public Vigenere(String tc) {
+	public Vigenere(String tc, int i) {
 		texto_cifrado = tc;
-		analise_frequencias = new AnaliseFrequencias(texto_cifrado);
+		String idioma;
+		if(i==1)
+			idioma="portugues";
+		else
+			idioma="ingles";
+		
+		analise_frequencias = new AnaliseFrequencias(texto_cifrado, idioma);
 	}
 
 	public static int encontraTamanhoChave() {
@@ -47,7 +53,7 @@ public class Vigenere {
 
 	// Sabendo qual a chave, decifra vigenere pelas cifras de cesar simples agora conhecidas
 	public static String decifra(String chave) {
-		System.out.println("Decifrando texto com a chave encontrada: ");
+		System.out.println("Decifrando texto com a chave encontrada.. ");
 		
 		StringBuilder texto_claro = new StringBuilder();
 		char letra_decifrada;
@@ -63,7 +69,6 @@ public class Vigenere {
 			letra_decifrada = (char) (deslocamento + 'a');
 			texto_claro.append(letra_decifrada);
 		}
-		System.out.println("\n\nTEXTO CLARO: \n" + texto_claro.toString());
 		return texto_claro.toString();
 	}
 
