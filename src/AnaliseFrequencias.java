@@ -2,6 +2,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+/*
+ * Classe que realiza analise de frequencias para encontrar os caracteres da chave em portugues.
+ * 
+ * */
 public class AnaliseFrequencias {
 	/*
 	 * Frequencias das letras no portugues
@@ -33,18 +37,152 @@ public class AnaliseFrequencias {
 	public static double Y = 0.006;
 	public static double Z = 0.470;
 
-	public static double[] FREQUENCIAS = { A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S, T, U, V, W, X, Y,
+	public static double[] FREQUENCIAS_PORT = { A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S, T, U, V, W, X, Y,
 			Z };
-		
-	private Character[] ALFABETO = { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p',
-			'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z' };
 	
-	private static String texto_cifrado="";
+	/*
+	 * Frequencias das letras no ingles
+	 */
+	public static double[] FREQUENCIAS_ING = {8.167, 1.492, 2.782,4.253,12.702, 2.228,2.015, 	6.094, 	6.966, 0.153,0.772, 4.025,	2.406, 6.749,7.507, 	1.929, 0.095, 	5.987, 6.327, 9.056, 	2.758, 0.978, 2.360, 0.150, 1.974,
+			0.074 };
 	
+	private static double[] FREQUENCIAS;
 	
-	public AnaliseFrequencias(String tc) {
-		this.texto_cifrado = tc;
+	public static void setFrequencias(String idioma) {
+		if(idioma.equals("ingles"))
+			FREQUENCIAS=FREQUENCIAS_ING;
+		else
+			FREQUENCIAS=FREQUENCIAS_PORT;
+			
 	}
 
-	
+	private static Character[] ALFABETO = { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o',
+			'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z' };
+
+	private static String texto_cifrado = "";
+
+	public AnaliseFrequencias(String tc, String idioma) {
+		texto_cifrado = tc;
+		setFrequencias(idioma);
+	}
+
+	public static Character[] getALFABETO() {
+		return ALFABETO;
+	}
+
+	// Divide o texto em uma matriz onde as colunas = tamanho da chave.
+	// Cada coluna corresponde a um caractere que foi cifrado com um caractere da
+	// chave.
+	public Map<Integer, ArrayList<Character>> divideTexto(int tamanho_chave) {
+
+		Map<Integer, ArrayList<Character>> matriz_texto_cifrado = new HashMap<>();
+
+		// Arredonda valor da divisao do tamanho do texto / tamanho da chave
+		int numero_linhas = (int) Math.ceil((double) texto_cifrado.length() / tamanho_chave);
+
+		int index = 0;
+
+		// Preenche matriz
+		for (int i = 0; i < numero_linhas; i++) {
+
+			matriz_texto_cifrado.put(i, new ArrayList<Character>());
+
+			for (int j = 0; j < tamanho_chave && index < texto_cifrado.length(); j++) {
+				// Para cada coluna da linha, adiciona a letra
+				matriz_texto_cifrado.get(i).add(texto_cifrado.charAt(index));
+				index++;
+			}
+		}
+		return matriz_texto_cifrado;
+	}
+
+	private Map<Character, Integer> frequencia_letra = new HashMap<>();
+
+	public Map<Character, Integer> getFrequencia_letra() {
+		return frequencia_letra;
+	}
+
+	// Teste Chi-Square para aproximar as frequências
+	public static Double chiSquare(double freq_observada, double freq_esperada) {
+		return Math.pow(freq_observada - freq_esperada, 2) / freq_esperada;
+	}
+
+	// Analisa cada coluna para descobrir a letra.
+	public Character descobreCaractere(String coluna) {
+		// Chi-Square: qual letra do alfabeto resulta na frequencia mais proxima a
+		// frequencia da lıngua portuguesa
+		Map<Character, Double> chiSquare = new HashMap<>();
+		String coluna_analise = coluna;
+
+		for (int i = 1; i < getALFABETO().length; i++) {
+
+			double chi = 0;
+			// Busca frequencia de cada letra da coluna
+			frequenciaLetra(coluna_analise);
+
+			// Para cada letra do alfabeto, calcula
+			// o chi comparando com o caractere atual
+			for (int j = 0; j < getALFABETO().length; j++) {
+				chi += chiSquare(frequencia_letra.get(getALFABETO()[j]), (FREQUENCIAS[j] * coluna_analise.length()));
+			}
+			// Armazena letra e valor Chi-Square
+			chiSquare.put(getALFABETO()[i - 1], chi);
+			// Desloca letras na coluna conforme valor do caracter
+			coluna_analise = deslocaLetras(getALFABETO()[i], coluna);
+		}
+
+		// Escolhe letra de menor valor
+		Character letra = new Character('a');
+		Double valor_minimmo = new Double(Double.MAX_VALUE);
+		for (Character key : chiSquare.keySet()) {
+			if (chiSquare.get(key)<valor_minimmo) {
+				letra = key;
+				valor_minimmo = chiSquare.get(key);
+			}
+		}
+		return letra;
+	}
+
+	// Conta a frequencia de cada letra em uma coluna de caracteres
+	public void frequenciaLetra(String coluna) {
+		// Inicializa o Array de frequencia de caracteres 
+		for (int i = 0; i < getALFABETO().length; i++) {
+			frequencia_letra.put(getALFABETO()[i], 0);
+		}
+		// Calcula frequencia de cada letra na coluna
+		for (int j = 0; j < coluna.length(); j++) {
+			frequencia_letra.put(coluna.charAt(j), frequencia_letra.get(coluna.charAt(j)) + 1);
+		}
+	}
+
+	// Desloca a coluna a partir da letra.
+	public String deslocaLetras(Character c, String coluna) {
+
+		// Coluna com deslocamento
+		StringBuilder nova_coluna = new StringBuilder();
+
+		// Monta coluna da tabela de vigenere do caracter
+		ArrayList<Character> ac = new ArrayList<>();
+		int k = (int) c;
+		for (int i = 0; i < getALFABETO().length; i++) {
+			ac.add((char) k);
+			if (k == 122)
+				k = 97;
+			else
+				k++;
+		}
+
+		int index = 0;
+		// Realiza deslocamento
+		for (int i = 0; i < coluna.length(); i++) {
+			for (int j = 0; j < ac.size(); j++) {
+				if (ac.get(j) == coluna.charAt(i)) {
+					index = j;
+					break;
+				}
+			}
+			nova_coluna.append(getALFABETO()[index]);
+		}
+		return nova_coluna.toString();
+	}
 }
